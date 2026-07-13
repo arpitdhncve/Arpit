@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Incident Drop — System Design Puzzle</title>
+<link rel="stylesheet" href="styles.css" />
+
+</head>
+<body>
+<div class="app">
+  <main class="safe">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge">🧱</div>
+        <div>
+          <div style="font-size:15px">Incident Drop</div>
+          <div style="font-size:11px;color:var(--muted)">Realtime reasoning puzzle</div>
+        </div>
+      </div>
+      <button class="icon-btn" id="helpBtn">?</button>
+    </div>
+
+    <div class="hud">
+      <div class="hud-card" id="timeCard"><strong id="time">75</strong><span>Seconds</span></div>
+      <div class="hud-card"><strong id="score">0</strong><span>Score</span></div>
+      <div class="hud-card"><strong id="combo">x1</strong><span>Combo</span></div>
+    </div>
+
+    <section class="incident">
+      <div class="eyebrow">Box #100 · System Design</div>
+      <h1>Messages Stay Ordered But Feeds Stay Old</h1>
+      <p>Feed lag reached four hours after push notifications launched. Consumers look healthy and errors remain rare.</p>
+    </section>
+
+    <section class="objective">
+      <div class="objective-top">
+        <div>
+          <div class="objective-label">Current target</div>
+          <h2 id="objectiveTitle">Build the Trigger</h2>
+          <p id="objectiveText">Connect the launch, workload change, and queue outcome.</p>
+        </div>
+      </div>
+      <div class="progress">
+        <i id="p-trigger" class="current"></i>
+        <i id="p-bottleneck"></i>
+        <i id="p-mechanism"></i>
+      </div>
+      <div class="lag-wrap">
+        <div class="lag-row"><span>Incident pressure</span><strong id="lagLabel">35%</strong></div>
+        <div class="lag-track"><div class="lag-fill" id="lagFill"></div></div>
+      </div>
+    </section>
+
+    <section class="game">
+      <div class="fall-zone" id="fallZone">
+        <div class="lane-guides">
+          <div class="lane-guide"><span class="lane-name">Theory A</span></div>
+          <div class="lane-guide"><span class="lane-name">Theory B</span></div>
+          <div class="lane-guide"><span class="lane-name">Theory C</span></div>
+        </div>
+        <div class="impact-line"></div>
+      </div>
+
+      <div class="controls">
+        <button class="control" id="leftBtn">◀ Left</button>
+        <button class="control drop" id="dropBtn">Drop now</button>
+        <button class="control" id="rightBtn">Right ▶</button>
+      </div>
+
+      <div class="power-row">
+        <button class="power" id="freezeBtn"><b>⏸</b>Freeze <span id="freezeCount">1</span></button>
+        <button class="power" id="flushBtn"><b>🧹</b>Flush <span id="flushCount">2</span></button>
+        <button class="power" id="inspectBtn"><b>🔍</b>Inspect <span id="inspectCount">2</span></button>
+      </div>
+    </section>
+
+    <section class="insights">
+      <div class="insight" id="i-trigger"><b>Trigger</b><span>Not found</span></div>
+      <div class="insight" id="i-bottleneck"><b>Bottleneck</b><span>Not found</span></div>
+      <div class="insight" id="i-mechanism"><b>Mechanism</b><span>Not found</span></div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="helpModal">
+  <div class="sheet">
+    <h3>How to play</h3>
+    <ol>
+      <li>A clue falls every few seconds.</li>
+      <li>Move it into one of three theory lanes.</li>
+      <li>When a lane holds three clues, the game tests the combination.</li>
+      <li>A correct causal chain clears the lane and unlocks an insight.</li>
+      <li>A weak theory becomes clutter and raises incident pressure.</li>
+      <li>Find Trigger, Bottleneck, and Mechanism before time or pressure runs out.</li>
+    </ol>
+    <button class="primary" id="startBtn">Start incident</button>
+  </div>
+</div>
+
+<div class="modal" id="rushModal">
+  <div class="sheet">
+    <h3>Root Cause Rush</h3>
+    <p>You found all three insights. Assemble the final explanation before the timer expires.</p>
+    <div class="rush-grid">
+      <div class="rush-part">
+        <label>Trigger</label>
+        <div class="choice-row" data-group="trigger">
+          <button class="choice">Push traffic increased 9×</button>
+          <button class="choice">Database writes slowed</button>
+          <button class="choice">Retries exploded</button>
+        </div>
+      </div>
+      <div class="rush-part">
+        <label>Bottleneck</label>
+        <div class="choice-row" data-group="bottleneck">
+          <button class="choice">Consumers were CPU-bound</button>
+          <button class="choice">Effective concurrency stayed at one</button>
+          <button class="choice">Network calls timed out</button>
+        </div>
+      </div>
+      <div class="rush-part">
+        <label>Mechanism</label>
+        <div class="choice-row" data-group="mechanism">
+          <button class="choice">Every message used FIFO group "global"</button>
+          <button class="choice">The feed cache expired</button>
+          <button class="choice">The DB lost an index</button>
+        </div>
+      </div>
+      <textarea id="finalText" placeholder="Optional: explain the full root cause in your own words..."></textarea>
+    </div>
+    <button class="primary" id="submitRush">Submit hypothesis</button>
+  </div>
+</div>
+
+<div class="modal" id="resultModal">
+  <div class="sheet">
+    <div class="stars" id="stars">⭐⭐⭐</div>
+    <h3 id="resultTitle">Incident contained</h3>
+    <p id="resultText"></p>
+    <button class="primary" id="retryBtn">Play again</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
